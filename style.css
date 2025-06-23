@@ -1,0 +1,236 @@
+/* 1. VARIÁVEIS GLOBAIS
+   Este bloco centraliza todas as variáveis de design. 
+   Mudar um valor aqui afeta o site inteiro.*/
+   :root {
+    /* --- Cores --- */
+    --green: #3a8f3a;
+    --green-dark: #1f5e1f;
+    --green-hover: #2f762f;
+    --border-dark: #145214;
+    --disabled: #555;
+    --text-color: #000;
+  
+    /* --- Geometria e Espaçamento --- */
+    --radius: 12px;
+    --gap-md: 15px;
+    --gap-lg: 20px;
+    --layout-padding: 20px;
+  
+    /* --- Tipografia --- */
+    --font-primary: Arial, sans-serif;
+    --font-size-button: 18px;
+    
+    /* --- Efeitos --- */
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    --transition: 0.3s ease;
+  }
+  
+  /* 2. RESET GLOBAL E ESTILOS BASE
+     Regras para normalizar o estilo em todos os navegadores e
+     definir a base visual da página. */
+  * {
+    /* Remove margens e paddings padrão de todos os elementos. */
+    /* Ajusta o modelo de caixa (box-sizing) para um layout mais previsível. */
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: var(--font-primary);
+  }
+  
+  html, body {
+    /* Garante que o html e o body ocupem 100% da altura e largura da tela. */
+    /* 'overflow: hidden' impede que o usuário role a página (isso será alterado para telas menores). */
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+  }
+  
+  body {
+    /* Aplica a imagem de fundo animada (.gif) ao corpo da página. */
+    background: url('assets/images/background.gif') center/cover no-repeat;
+  }
+  
+  /* 3. LAYOUT PRINCIPAL
+     Estrutura a página nos três painéis principais: esquerdo, central
+     e direito. */
+  
+  .layout {
+    /* Define o contêiner principal que organiza toda a página em um layout flexível. */
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    padding: var(--layout-padding);
+    gap: var(--gap-lg);
+  }
+  
+  .left-panel, .right-panel, .center-panel {
+    /* Estilo base para todos os três painéis, garantindo que sejam contêineres flex e verticais. */
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .left-panel, .right-panel {
+    /* Define que os painéis laterais (esquerdo e direito) devem ter o mesmo tamanho (flex: 1). */
+    flex: 1;
+    padding-top: var(--layout-padding);
+  }
+  
+  .left-panel {
+    /* Define o espaçamento interno entre os itens do painel esquerdo. */
+    gap: var(--gap-md);
+  }
+  
+  .right-panel {
+    /* Alinha os itens do painel direito (botões) à direita e define seu espaçamento. */
+    align-items: flex-end;
+    gap: var(--gap-lg);
+  }
+  
+  .center-panel {
+    /* Define que o painel central é o maior (flex: 2) e centraliza seu conteúdo. */
+    flex: 2;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  
+  /* 4. COMPONENTES
+     Estilos para elementos específicos da interface, como botões,
+     placar e a árvore.*/
+  
+  /* Caixa de Pontuação  */
+  .score-box {
+    /* Estiliza a caixa que exibe a pontuação, usando uma imagem de fundo para a borda. */
+    background: url('assets/images/pontosborda.png') center/110% 100% no-repeat;
+    width: 200px;
+    height: 60px;
+    padding: 5px 15px;
+    color: var(--text-color);
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .score-icon {
+    /* O ícone (moeda) dentro da caixa de pontuação. */
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    margin-left: -25px;
+  }
+  
+  .score-text {
+    /* O texto (número da pontuação) dentro da caixa. */
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding-right: 15px;
+  }
+  
+  /* Logo e Árvore */
+  .main-logo {
+    /* Estiliza o logo principal do jogo. */
+    max-width: 230px;
+    width: 100%;
+    height: auto;
+  }
+  
+  #IdTree {
+    /* A árvore clicável. 'cursor: pointer' indica ao usuário que é interativa. */
+    width: 420px;
+    height: auto;
+    cursor: pointer;
+    transition: transform 0.1s;
+  }
+  
+  #IdTree:active {
+    /* Efeito de "clique": a árvore diminui um pouco quando pressionada. */
+    transform: scale(0.95);
+  }
+  
+  /* Botões do Painel Direito */
+  .right-panel button {
+    /* Estilo principal para os botões. */
+    background: linear-gradient(to bottom, var(--green), var(--green-dark));
+    color: #fff;
+    border: 2px solid var(--border-dark);
+    border-radius: var(--radius);
+    padding: 18px 30px;
+    font-size: var(--font-size-button);
+    width: 180px;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    transition: all var(--transition);
+  }
+  
+  .right-panel button:hover {
+    /* Efeito ao passar o mouse: o botão muda de cor e aumenta levemente. */
+    background: linear-gradient(to bottom, var(--green-hover), #164216);
+    transform: scale(1.03);
+  }
+  
+  .right-panel button:disabled {
+    /* Estilo para quando um botão está desabilitado. */
+    background: var(--disabled);
+    border-color: #333;
+    transform: none;
+    cursor: not-allowed;
+  }
+  
+  /* 5. ANIMAÇÕES */
+  
+  .woodpicker-animation {
+    /* A animação do pica-pau, que aparece sobre a árvore. */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 80px;
+    height: auto;
+    transform: translate(60px, 40px);
+    z-index: 10;
+    pointer-events: none;
+  }
+  
+  
+  /* 6. RESPONSIVIDADE */
+  @media (max-width: 768px) {
+    /* HABILITA A ROLAGEM PARA TELAS MENORES */
+    html, body {
+      overflow: auto; 
+    }
+  
+    /* AJUSTA O LAYOUT PARA SER VERTICAL E EXPANSÍVEL  */
+    .layout {
+      flex-direction: column;
+      height: auto; 
+      min-height: 100vh; 
+      padding: 10px;
+      gap: var(--gap-lg);
+    }
+  
+    /* CENTRALIZA O CONTEÚDO DOS PAINÉIS  */
+    .left-panel, .center-panel, .right-panel {
+      flex: 1; 
+      width: 100%;
+      align-items: center;
+      justify-content: center;
+      padding-top: 0;
+    }
+  }
+  /* 7. FOOTER */
+  .site-footer {
+    width: 100%;
+    padding: 15px 0;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    font-weight: arial;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    font-size: 16px;
+    z-index: 50;
+  }

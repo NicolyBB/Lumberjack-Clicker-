@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lumberjack Clicker</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/png" href="assets/images/logo.png">
+</head>
+
+<body>
+  <div class="layout">
+
+    <!-- Parte da esquerda - Pontuação -->
+    <div class="left-panel">
+      <div class="score-box">
+        <img src="assets/images/madeirascor.png" class="score-icon" alt="madeira">
+        <div class="score-text">
+          <p>Pontuação: <span id="IdScore">0</span></p>
+        </div>
+      </div>
+      <div class="score-box">
+        <img src="assets/images/cursorscor.png" class="score-icon" alt="cursor">
+        <div class="score-text">
+          <p>Valor Base: <span id="IdBaseValue">1</span></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Parte central - Logo no meio e arvore -->
+    <div class="center-panel">
+      <div id="animation-container"></div>
+      
+      <img src="assets/images/logo.png" class="main-logo" alt="Logo">
+      <img src="assets/images/tree.png" id="IdTree" alt="Tree">
+    </div>
+
+  <!-- Parte da direita - Updates -->
+  <div class="right-panel">
+    <button id="IdBuyWoodPicker">WoodPicker (Custo: 10)</button>
+    <button id="IdStrongPunch">Strong Punch (Custo: 50)</button>
+  </div>
+  </div>
+
+  <script src="script.js"></script>
+
+</body>
+<footer class="site-footer">
+  Desenvolvido por: Brendon, Nicoly e Wander.
+</footer>
+</html>
