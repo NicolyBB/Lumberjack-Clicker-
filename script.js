@@ -5,8 +5,8 @@ let letWoodPickerBaseValue = 0; // Valor inicial passivo do WoodPicker
 let letWoodPickerInterval = 1000; // Intervalo do WoodPicker em milissegundos
 let letFinalScore = 500;
 // Custos e bônus dos upgrades
-let letWoodPickerCost = 10;
-let letWoodPickerBaseBoost = 0.5;
+let letWoodPickerCost = 0.5;
+let letWoodPickerBaseBoost = 10;
 
 let letStrongPunchCost = 50;
 let letStrongPunchBaseBoost = 1;
@@ -20,9 +20,6 @@ let letChainsawBaseBoost = 32;
 // Variáveis de ativação
 let isWoodpickerGifShown = false; // Ativa quando o WoodPicker deve ser exibido
 
-// Atualiza os preços da loja com o valor de custo
-document.getElementById("IdStrongPunch").innerHTML = "Strong Punch (Custo: " + letStrongPunchCost + ")";
-document.getElementById("IdWoodPicker").innerHTML = "WoodPicker (Custo: " + letWoodPickerCost + ")";
 
 // Música
 let isBacksongPlaying = false; // Ativa quando a música deve ser tocada
@@ -63,6 +60,7 @@ function funcaoWoodPicker() {
     letScore += letWoodPickerBaseValue;
     document.getElementById("IdScore").innerHTML = letScore;
     document.getElementById("IdBaseValue").innerHTML = letBaseValue;
+    document.getElementById("IdBuyWoodPicker").innerHTML = "WoodPicker (Custo: " + letWoodPickerCost + ")";
 }
 
 // Função de compra do WoodPicker
@@ -73,9 +71,8 @@ function funcaoBuyWoodPicker(){
     letScore -= letWoodPickerCost;
     letWoodPickerBaseValue += letWoodPickerBaseBoost;
     document.getElementById("IdScore").innerHTML = letScore;
-    letWoodPickerCost *= 2;
+    letWoodPickerCost += letWoodPickerCost;
     document.getElementById("IdWoodPickerBaseValue").innerHTML = letWoodPickerBaseValue;
-    document.getElementById("IdWoodPicker").innerHTML = "WoodPicker (Custo: " + letWoodPickerCost + ")";
     if (!isWoodpickerGifShown) { // mostra o woodpicker
       const centerPanel = document.querySelector('.center-panel');
       const woodpickerGif = document.createElement('img');
@@ -127,9 +124,9 @@ document.getElementById("IdStrongPunch").addEventListener("click", funcaoStrongP
                 // Compra do Chainsaw
                 document.getElementById("IdChainsaw").addEventListener("click", luncaoChainsaw);
                 function luncaoChainsaw() {
+                    letScore += letAxeCost;
+                    letBaseValue -= letAxeBaseBoost;
                     if (letScore < letChainsawCost) {
-                      letBaseValue -= letAxeBaseBoost;
-                      letScore += letAxeCost;
                         window.alert("Not enough wood") }
                     else {
                         letScore -= letChainsawCost;
