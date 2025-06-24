@@ -57,10 +57,11 @@ function funcaoTree() {
 
 // Função passiva do WoodPicker
 function funcaoWoodPicker() {
+    if (letScore < letFinalScore) {
     letScore += letWoodPickerBaseValue;
     document.getElementById("IdScore").innerHTML = letScore;
     document.getElementById("IdBaseValue").innerHTML = letBaseValue;
-    document.getElementById("IdBuyWoodPicker").innerHTML = "WoodPicker (Custo: " + letWoodPickerCost + ")";
+    document.getElementById("IdBuyWoodPicker").innerHTML = "WoodPicker (Custo: " + letWoodPickerCost + ")";}
 }
 
 // Função de compra do WoodPicker
