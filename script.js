@@ -1,25 +1,28 @@
 // Variáveis iniciais
-let LetScore = 0; // Score inicial
-let LetBaseValue = 1; // Valor base inicial do clique
-let LetWoodPickerBaseValue = 0; // Valor inicial passivo do WoodPicker
+let letScore = 0; // Score inicial
+let letBaseValue = 1; // Valor base inicial do clique
+let letWoodPickerBaseValue = 0; // Valor inicial passivo do WoodPicker
 let letWoodPickerInterval = 1000; // Intervalo do WoodPicker em milissegundos
-let LetFinalScore = 500;
+let letFinalScore = 500;
 // Custos e bônus dos upgrades
-let LetWoodPickerCost = 10;
-let LetWoodPickerBaseBoost = 0.5;
+let letWoodPickerCost = 10;
+let letWoodPickerBaseBoost = 0.5;
 
-let LetStrongPunchCost = 50;
-let LetStrongPunchBaseBoost = 1;
+let letStrongPunchCost = 50;
+let letStrongPunchBaseBoost = 1;
 
-let LetAxeCost = 100;
-let LetAxeBaseBoost = 8;
+let letAxeCost = 100;
+let letAxeBaseBoost = 8;
 
-let LetChainsawCost = 300;
-let LetChainsawBaseBoost = 32;
+let letChainsawCost = 300;
+let letChainsawBaseBoost = 32;
 
 // Variáveis de ativação
 let isWoodpickerGifShown = false; // Ativa quando o WoodPicker deve ser exibido
 
+// Atualiza os preços da loja com o valor de custo
+document.getElementById("IdStrongPunch").innerHTML = "Strong Punch (Custo: " + letStrongPunchCost + ")";
+document.getElementById("IdWoodPicker").innerHTML = "WoodPicker (Custo: " + letWoodPickerCost + ")";
 
 // Música
 let isBacksongPlaying = false; // Ativa quando a música deve ser tocada
@@ -37,126 +40,102 @@ document.addEventListener('mousemove', (event) => {
   }
 );
 
-
-// ==========================================================
-//                   3. FUNÇÕES DE LÓGICA DO JOGO
-//            Aqui ficam as regras de como o jogo funciona.
-// ==========================================================
-
 // Função chamada ao clicar na árvore.
-function FuncaoTree() {
-  if (LetScore < LetFinalScore)
+function funcaoTree() {
+  if (letScore < letFinalScore)
   {
   // Adiciona o valor do clique ('LetBaseValue') à pontuação total ('LetScore').
-  LetScore += LetBaseValue;
+  letScore += letBaseValue;
   // Atualiza o texto do elemento com id "IdScore" no HTML para mostrar a nova pontuação.
-  document.getElementById("IdScore").innerHTML = LetScore;
+  document.getElementById("IdScore").innerHTML = letScore;
   
-  // --- Lógica de som ---
-  // Reinicia o tempo do som do clique para o início. Isso permite que o som toque novamente mesmo com cliques rápidos.
+  // Toca som sempre que clica e mantém a música de fundo
   audioTreeHit.currentTime = 0;
-  // Toca o som do clique.
   audioTreeHit.play();
-  
-  // Se a música de fundo ainda não estiver tocando...
   if (!isBacksongPlaying) {
-    // ...toca a música...
     audioBacksong.play();
-    // ...e atualiza a flag para 'true', para que este bloco não seja executado novamente.
     isBacksongPlaying = true;
   }} else {window.alert("Você venceu!")}
 }
 
 // Função passiva do WoodPicker
-function FuncaoWoodPicker() {
-    LetScore += LetWoodPickerBaseValue;
-    document.getElementById("IdScore").innerHTML = LetScore;
-    document.getElementById("IdBaseValue").innerHTML = LetBaseValue;
+function funcaoWoodPicker() {
+    letScore += letWoodPickerBaseValue;
+    document.getElementById("IdScore").innerHTML = letScore;
+    document.getElementById("IdBaseValue").innerHTML = letBaseValue;
 }
 
 // Função de compra do WoodPicker
-function FuncaoBuyWoodPicker(){
-  if (LetScore < LetWoodPickerCost) {
+function funcaoBuyWoodPicker(){
+  if (letScore < letWoodPickerCost) {
     window.alert("Not enough wood");
   } else {
-    LetScore -= LetWoodPickerCost;
-    LetWoodPickerBaseValue += LetWoodPickerBaseBoost;
-    document.getElementById("IdScore").innerHTML = LetScore;
-    // Se o GIF do pica-pau ainda não foi mostrado...
-    if (!isWoodpickerGifShown) {
-      // ...pega o painel central...
+    letScore -= letWoodPickerCost;
+    letWoodPickerBaseValue += letWoodPickerBaseBoost;
+    document.getElementById("IdScore").innerHTML = letScore;
+    letWoodPickerCost *= 2;
+    document.getElementById("IdWoodPickerBaseValue").innerHTML = letWoodPickerBaseValue;
+    document.getElementById("IdWoodPicker").innerHTML = "WoodPicker (Custo: " + letWoodPickerCost + ")";
+    if (!isWoodpickerGifShown) { // mostra o woodpicker
       const centerPanel = document.querySelector('.center-panel');
-      // ...cria um novo elemento de imagem...
       const woodpickerGif = document.createElement('img');
-      // ...define a origem (o arquivo do GIF)...
       woodpickerGif.src = 'assets/images/woodpicker.gif';
-      // ...define um texto alternativo...
       woodpickerGif.alt = 'WoodPicker Animado';
-      // ...adiciona a classe CSS para estilização...
       woodpickerGif.className = 'woodpicker-animation';
-      // ...e finalmente, adiciona o GIF criado ao painel central.
       centerPanel.appendChild(woodpickerGif);
-      // Marca que o GIF já foi mostrado para não repetir a ação.
       isWoodpickerGifShown = true;
     }
     
   }
 }
 
-
-
 //    Garante que o HTML carregou antes de adicionar os cliques
 document.addEventListener('DOMContentLoaded', () => {
-  setInterval(FuncaoWoodPicker, letWoodPickerInterval);
-  // --- Adiciona os eventos de clique aos botões ---
-  // Pega o elemento da árvore e adiciona um "ouvinte de clique". Quando clicado, chama 'FuncaoTree'.
-  document.getElementById("IdTree").addEventListener("click", FuncaoTree);
-  // Faz o mesmo para o botão de comprar o WoodPicker.
-  document.getElementById("IdBuyWoodPicker").addEventListener("click", FuncaoBuyWoodPicker);
-  // E para o botão de upgrade inicial, "Strong Punch".
-  
+  setInterval(funcaoWoodPicker, letWoodPickerInterval);
+  document.getElementById("IdTree").addEventListener("click", funcaoTree);
+  document.getElementById("IdBuyWoodPicker").addEventListener("click", funcaoBuyWoodPicker);
 });
 
-document.getElementById("IdStrongPunch").addEventListener("click", FuncaoStrongPunch);
-  function FuncaoStrongPunch(){
-    if (LetScore < LetStrongPunchCost) {
+document.getElementById("IdStrongPunch").addEventListener("click", funcaoStrongPunch);
+  function funcaoStrongPunch(){
+    if (letScore < letStrongPunchCost) {
         window.alert("Not enough wood");}
     else {
-        LetScore -= LetStrongPunchCost;
-        LetBaseValue += LetStrongPunchBaseBoost;
-        document.getElementById("IdScore").innerHTML = LetScore;
-        document.getElementById("IdBaseValue").innerHTML = LetBaseValue;
-        document.getElementById("IdStrongPunch").innerHTML = "Axe"; // Muda o texto para Axe
+        letScore -= letStrongPunchCost;
+        letBaseValue += letStrongPunchBaseBoost;
+        document.getElementById("IdScore").innerHTML = letScore;
+        document.getElementById("IdBaseValue").innerHTML = letBaseValue;
+        document.getElementById("IdStrongPunch").innerHTML = "Axe (Custo: " + letAxeCost + ")"; // Muda o texto para Axe
         document.getElementById("IdStrongPunch").id = "IdAxe";      // Prepara para o próximo upgrade
         // As compras subsequentes estão dentro uma das outras
         // pois o addEventListener não identificaria o Id novo
         // se eles estivessem fosse fora da função.
         // Compra do Axe
-        document.getElementById("IdAxe").addEventListener("click", FuncaoAxe);
-        function FuncaoAxe() {
-          LetScore += LetStrongPunchCost;
-          LetBaseValue -= LetStrongPunchBaseBoost;
-            if (LetScore < LetAxeCost) {
+        document.getElementById("IdAxe").addEventListener("click", funcaoAxe);
+        function funcaoAxe() {
+          letScore += letStrongPunchCost;
+          letBaseValue -= letStrongPunchBaseBoost;
+            if (letScore < letAxeCost) {
                 window.alert("Not enough wood") }
             else {
-                LetScore -= LetAxeCost;
-                LetBaseValue += LetAxeBaseBoost;
-                document.getElementById("IdScore").innerHTML = LetScore;
-                document.getElementById("IdBaseValue").innerHTML = LetBaseValue;
-                document.getElementById("IdAxe").innerHTML = "Chainsaw";
+                letScore -= letAxeCost;
+                letBaseValue += letAxeBaseBoost;
+                document.getElementById("IdScore").innerHTML = letScore;
+                document.getElementById("IdBaseValue").innerHTML = letBaseValue;
+                document.getElementById("IdAxe").innerHTML = "Chainsaw (Custo: " + letChainsawCost + ")";
                 document.getElementById("IdAxe").id = "IdChainsaw";
                 // Compra do Chainsaw
-                document.getElementById("IdChainsaw").addEventListener("click", FuncaoChainsaw);
-                function FuncaoChainsaw() {
-                    if (LetScore < LetChainsawCost) {
-                      LetBaseValue -= LetAxeBaseBoost;
-                      LetScore += LetAxeCost;
+                document.getElementById("IdChainsaw").addEventListener("click", luncaoChainsaw);
+                function luncaoChainsaw() {
+                    if (letScore < letChainsawCost) {
+                      letBaseValue -= letAxeBaseBoost;
+                      letScore += letAxeCost;
                         window.alert("Not enough wood") }
                     else {
-                        LetScore -= LetChainsawCost;
-                        LetBaseValue += LetChainsawBaseBoost;
-                        document.getElementById("IdScore").innerHTML = LetScore;
-                        document.getElementById("IdBaseValue").innerHTML = LetBaseValue;
+                        letScore -= letChainsawCost;
+                        letBaseValue += letChainsawBaseBoost;
+                        document.getElementById("IdScore").innerHTML = letScore;
+                        document.getElementById("IdBaseValue").innerHTML = letBaseValue;
                         document.getElementById("IdChainsaw").innerHTML = "Max";
                         document.getElementById("IdChainsaw").disabled = true; // Desativa o botão para sinalizar que é o nível máximo.
                     }
